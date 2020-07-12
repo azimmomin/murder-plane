@@ -2,59 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
+///<summary>
 /// This class moves the player based on user input. 
-/// </summary>
+///</summary>
 public class PlayerController : MonoBehaviour
 {
-  // TODO: Refactor Touch logic into its own class.
-  // Creating an empty touch object so we don't
-  // have to keep initializing new ones.
-  private static Touch EmptyTouch = new Touch();
-
-  [SerializeField] private float speed = 10f;
-  [SerializeField] private float rotationSpeed = 10f;
-  [SerializeField] private Camera playerCamera = null;
-  [SerializeField] private float minRotationAngle = -45f;
-  [SerializeField] private float maxRotationAngle = 45f;
-
-  private Touch activeTouch = EmptyTouch;
+  [SerializeField] private PlayerInputManager playerInputManager = null;
+  [SerializeField] private float speed = 5f;
+  [SerializeField] private float rotationSpeed = 0.2f;
+  // If true, the player will pitch upwards when the
+  // user swipes up and downwards when the user swipes
+  // down. If false, the player will pitch in the
+  // opposite direction of the swipe.
+  [SerializeField] private bool useNaturalMotion = true;
+  [SerializeField] private float minRotationAngle = -30;
+  [SerializeField] private float maxRotationAngle = 50f;
 
   void Update()
   {
     // Move the plane forward at a constant speed
     transform.Translate(0f, 0f, speed * Time.deltaTime);
 
-    HandlePlayerInput();
-    //float xRotation = verticalInput * rotationSpeed * Time.deltaTime;
-    //float yRotation = horizontalInput * rotationSpeed * Time.deltaTime;
-    //transform.Rotate(xRotation, yRotation, 0f, Space.World);
+    Vector2 delta  = playerInputManager.GetChangeInPlayerInput();
+    transform.Rotate(Vector3.up * (delta.x * rotationSpeed * Time.deltaTime));
+    float direction = useNaturalMotion ? -1f : 1f;
+    transform.Rotate(Vector3.right * (delta.y * rotationSpeed * Time.deltaTime * direction));
   }
 
-  private void HandlePlayerInput()
+  void LateUpdate()
   {
-    // For the sake of simplicity, we'll only concern ourselves with one touch.
-    // This has the side effect of a secondary touch overriding the existing one.
-    foreach (Touch touch in Input.touches)
-    {
-      switch (touch.phase)
-      {
-        case TouchPhase.Began:
-          activeTouch = touch;
-          break;
-          // If the touch is a moving touch, rotate the player camera.
-        case TouchPhase.Moved:
-          Vector2 delta = (activeTouch.position - touch.position);
-          delta.x = Mathf.Clamp(delta.x, minRotationAngle, maxRotationAngle) * rotationSpeed * Time.deltaTime;
-          delta.y = delta.y * rotationSpeed * Time.deltaTime;
-          playerCamera.transform.eulerAngles = new Vector3(delta.x, delta.y, 0f);
-          //playerCamera.transform.rotation = Quaternion.Euler(delta.x, delta.y, 0f);
-          break;
-          // Clean up state once the touch has ended.
-        case TouchPhase.Ended:
-          activeTouch = EmptyTouch;
-          break;
-      }
-    }
+    // Clamp the player's rotation so they can't do back flips.
+    Vector3 currentRotation = transform.eulerAngles;
+    currentRotation.x = MathfExtensions.ClampAngle(currentRotation.x, minRotationAngle, maxRotationAngle);
+    currentRotation.z = 0f;
+    transform.rotation = Quaternion.Euler(currentRotation);
   }
 }
