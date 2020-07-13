@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Bounds
+  - CollidableEnvironment
+  - NonCollidableEnvironment
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
+  - Environment
+  - Enemy
   - 
   - 
   - 

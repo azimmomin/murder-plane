@@ -10,7 +10,7 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
   [SerializeField] private GameObject player = null;
-  [SerializeField] private Vector3 offset = Vector3.zero;
+  private Vector3 offset = Vector3.zero;
 
   void Start()
   {
@@ -20,6 +20,5 @@ public class FollowPlayer : MonoBehaviour
   void Update()
   {
     transform.position = player.transform.position + offset;
-    // TODO; fix rotation.
   }
 }

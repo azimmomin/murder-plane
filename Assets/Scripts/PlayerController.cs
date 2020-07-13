@@ -20,12 +20,12 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   [SerializeField] private bool useNaturalMotion = true;
 
-  private bool shouldStopMovement = false;
+  private bool hasHitObstacle = false;
   private void Update()
   {
     // Move the player forward at a constant speed
-    if (!shouldStopMovement)
-    transform.Translate(0f, 0f, speed * Time.deltaTime);
+    if (!hasHitObstacle)
+      transform.Translate(0f, 0f, speed * Time.deltaTime);
 
     // Rotate the player based on user input.
     Vector2 delta = playerInputManager.GetChangeInPlayerInput();
@@ -45,13 +45,12 @@ public class PlayerController : MonoBehaviour
 
   private void OnCollisionEnter(Collision collisionInfo)
   {
-    shouldStopMovement = true;
-    Debug.LogError($"Trigger Entered -- {collisionInfo.collider.gameObject.tag}");
+    hasHitObstacle = true;
+    Debug.LogError($"Collision Entered -- {collisionInfo.collider.gameObject.tag}");
   }
 
   private void OnTriggerEnter(Collider other)
   {
-    shouldStopMovement = true;
     Debug.LogError($"Trigger Entered -- {other.gameObject.tag}");
   }
 }
