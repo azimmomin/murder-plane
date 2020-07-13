@@ -23,7 +23,7 @@ public class PlayerInputManager : MonoBehaviour
     // Rotate the plane based on user input
     HandlePlayerInput();
   }
-  
+
   private void HandlePlayerInput()
   {
     foreach (Touch touch in Input.touches)
@@ -38,11 +38,11 @@ public class PlayerInputManager : MonoBehaviour
           initialTouch = touch;
           playerInputMoveAmount = Vector2.zero;
           break;
-          // If the touch is a moving, rotate the player camera.
+        // If the touch is a moving, rotate the player camera.
         case TouchPhase.Moved:
           playerInputMoveAmount = touch.position - initialTouch.position;
           break;
-          // Clean up state once the touch has ended.
+        // Clean up state once the touch has ended.
         case TouchPhase.Ended:
           initialTouch = EmptyTouch;
           playerInputMoveAmount = Vector2.zero;

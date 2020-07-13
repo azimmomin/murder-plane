@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 ///<summary>
 /// Utility methods that are no part of the Mathf libraries in Unity or C#.

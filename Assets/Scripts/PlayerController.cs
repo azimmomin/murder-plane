@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// This class moves the player based on user input. 
@@ -8,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
   [SerializeField] private PlayerInputManager playerInputManager = null;
+  [SerializeField] private Rigidbody playerBody;
   [SerializeField] private float speed = 5f;
   [SerializeField] private float rotationSpeed = 0.2f;
   [SerializeField] private float minRotationAngle = -30;
@@ -20,17 +19,19 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   [SerializeField] private bool useNaturalMotion = true;
 
-  private bool hasHitObstacle = false;
+  private void FixedUpdate()
+  {
+    // Move the player at a constant speed. We take into account any rotation
+    // that was applied in the Update loop.
+    playerBody.velocity = transform.forward * speed;
+  }
+
   private void Update()
   {
-    // Move the player forward at a constant speed
-    if (!hasHitObstacle)
-      transform.Translate(0f, 0f, speed * Time.deltaTime);
-
     // Rotate the player based on user input.
     Vector2 delta = playerInputManager.GetChangeInPlayerInput();
-    transform.Rotate(Vector3.up * (delta.x * rotationSpeed * Time.deltaTime));
     float direction = useNaturalMotion ? -1f : 1f;
+    transform.Rotate(Vector3.up * (delta.x * rotationSpeed * Time.deltaTime));
     transform.Rotate(Vector3.right * (delta.y * rotationSpeed * Time.deltaTime * direction));
   }
 
@@ -45,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
   private void OnCollisionEnter(Collision collisionInfo)
   {
-    hasHitObstacle = true;
     Debug.LogError($"Collision Entered -- {collisionInfo.collider.gameObject.tag}");
   }
 
