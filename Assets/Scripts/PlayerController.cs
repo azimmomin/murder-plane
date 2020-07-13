@@ -6,7 +6,7 @@
 public class PlayerController : MonoBehaviour
 {
   [SerializeField] private PlayerInputManager playerInputManager = null;
-  [SerializeField] private Rigidbody playerBody;
+  [SerializeField] private Rigidbody playerBody = null;
   [SerializeField] private float speed = 5f;
   [SerializeField] private float rotationSpeed = 0.2f;
   [SerializeField] private float minRotationAngle = -30;
@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
   private void FixedUpdate()
   {
+    if (!GameManager.Instance.IsGameActive) return;
+
     // Move the player at a constant speed. We take into account
     // any rotation that was applied in the Update loop.
     playerBody.velocity = transform.forward * speed;
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
   private void Update()
   {
+    if (!GameManager.Instance.IsGameActive) return;
+
     // Rotate the player based on user input.
     Vector2 delta = playerInputManager.GetChangeInPlayerInput();
     float direction = useNaturalMotion ? -1f : 1f;
