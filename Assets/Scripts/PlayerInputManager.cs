@@ -38,7 +38,7 @@ public class PlayerInputManager : MonoBehaviour
           initialTouch = touch;
           playerInputMoveAmount = Vector2.zero;
           break;
-        // If the touch is a moving, rotate the player camera.
+        // If the touch is a moving, capture the amount it moved.
         case TouchPhase.Moved:
           playerInputMoveAmount = touch.position - initialTouch.position;
           break;

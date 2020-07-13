@@ -6,8 +6,6 @@ TagManager:
   tags:
   - Enemy
   - Bounds
-  - CollidableEnvironment
-  - NonCollidableEnvironment
   layers:
   - Default
   - TransparentFX

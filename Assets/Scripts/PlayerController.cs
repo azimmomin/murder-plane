@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour
 
   private void FixedUpdate()
   {
-    // Move the player at a constant speed. We take into account any rotation
-    // that was applied in the Update loop.
+    // Move the player at a constant speed. We take into account
+    // any rotation that was applied in the Update loop.
     playerBody.velocity = transform.forward * speed;
   }
 
@@ -42,15 +42,5 @@ public class PlayerController : MonoBehaviour
     currentRotation.x = MathfExtensions.ClampAngle(currentRotation.x, minRotationAngle, maxRotationAngle);
     currentRotation.z = 0f;
     transform.rotation = Quaternion.Euler(currentRotation);
-  }
-
-  private void OnCollisionEnter(Collision collisionInfo)
-  {
-    Debug.LogError($"Collision Entered -- {collisionInfo.collider.gameObject.tag}");
-  }
-
-  private void OnTriggerEnter(Collider other)
-  {
-    Debug.LogError($"Trigger Entered -- {other.gameObject.tag}");
   }
 }
