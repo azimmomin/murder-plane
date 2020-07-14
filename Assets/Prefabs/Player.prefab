@@ -288,8 +288,8 @@ MonoBehaviour:
   playerBody: {fileID: 3075795419437816866}
   speed: 10
   rotationSpeed: 0.25
-  minRotationAngle: -25
-  maxRotationAngle: 25
+  minRotationAngle: -45
+  maxRotationAngle: 45
   useNaturalMotion: 1
 --- !u!114 &3075795419437816864
 MonoBehaviour:

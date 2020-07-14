@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
         gameState = GameState.Ready;
         break;
       case GameState.Ready:
+        if (Input.anyKey)
+          gameState = GameState.Started;
+
         if (Input.touchCount > 0)
         {
           Touch touch = Input.GetTouch(0);

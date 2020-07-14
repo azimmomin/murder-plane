@@ -37,6 +37,7 @@ public class PlayerInputManager : MonoBehaviour
       switch (touch.phase)
       {
         case TouchPhase.Began:
+        case TouchPhase.Stationary:
           initialTouch = touch;
           playerInputMoveAmount = Vector2.zero;
           break;
@@ -45,6 +46,7 @@ public class PlayerInputManager : MonoBehaviour
           playerInputMoveAmount = touch.position - initialTouch.position;
           break;
         // Clean up state once the touch has ended.
+        case TouchPhase.Canceled:
         case TouchPhase.Ended:
           initialTouch = EmptyTouch;
           playerInputMoveAmount = Vector2.zero;

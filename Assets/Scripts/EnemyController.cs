@@ -8,4 +8,10 @@ public class EnemyController : MonoBehaviour
   {
     IsDead = false;
   }
+
+  private void OnTriggerEnter(Collider other)
+  {
+    if (!IsDead && other.gameObject.tag == "Player")
+      IsDead = true;
+  }
 }
