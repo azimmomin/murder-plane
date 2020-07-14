@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
       case GameState.Init:
         enemySpawner.SpawnEnemies(numEnemiesToSpawn);
+        // TODO
         // Load player.
         // Play fade animation so we don't overwhelm the user.
         gameState = GameState.Ready;
@@ -64,6 +65,9 @@ public class GameManager : MonoBehaviour
         break;
       case GameState.Started:
         IsGameActive = true;
+        // TODO Play an animation to not make this so abrupt.
+        if (enemySpawner.AreAllEnemiesDead())
+          gameState = GameState.Over;
         break;
       case GameState.Over:
         IsGameActive = false;

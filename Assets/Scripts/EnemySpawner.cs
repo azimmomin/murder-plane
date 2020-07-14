@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 /// <summary>
 /// This class is responsible for spawning enemies at random
-/// spawn points.
+/// spawn points and keeping track of those spawned enemies.
 /// </summary>
 public class EnemySpawner : MonoBehaviour
 {
   [SerializeField] private Transform[] enemySpawnPoints = null;
   [SerializeField] private GameObject enemyPrefab = null;
+
+  private IList<EnemyController> spawnedEnemies = new List<EnemyController>();
 
   public void SpawnEnemies(int amountToSpawn)
   {
@@ -31,7 +34,25 @@ public class EnemySpawner : MonoBehaviour
     for (int i = 0; i < modifiedAmountToSpawn; i++)
     {
       Transform spawnPoint = enemySpawnPoints[shuffledIndexRange[i]];
-      Instantiate(enemyPrefab, spawnPoint);
+      GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPoint);
+      EnemyController enemyController = spawnedEnemy.GetComponent<EnemyController>();
+      if (enemyController != null)
+        spawnedEnemies.Add(enemyController);
     }
+  }
+
+  public bool AreAllEnemiesDead()
+  {
+    bool areAllEnemiesDead = true;
+    for (int i = 0, count = spawnedEnemies.Count; i < count; i++)
+      areAllEnemiesDead &= spawnedEnemies[i].IsDead;
+    
+    return areAllEnemiesDead;
+  }
+
+  public void ClearSpawnedEnemies()
+  {
+    for (int i = 0, count = spawnedEnemies.Count; i < count; i++)
+      Destroy(spawnedEnemies[i].gameObject);
   }
 }
