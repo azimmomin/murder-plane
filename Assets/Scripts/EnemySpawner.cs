@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
     bool areAllEnemiesDead = true;
     for (int i = 0, count = spawnedEnemies.Count; i < count; i++)
       areAllEnemiesDead &= spawnedEnemies[i].IsDead;
-    
+
     return areAllEnemiesDead;
   }
 
@@ -54,5 +54,7 @@ public class EnemySpawner : MonoBehaviour
   {
     for (int i = 0, count = spawnedEnemies.Count; i < count; i++)
       Destroy(spawnedEnemies[i].gameObject);
+
+    spawnedEnemies.Clear();
   }
 }

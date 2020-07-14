@@ -7,6 +7,11 @@ public class PlayerController : MonoBehaviour
 {
   [SerializeField] private PlayerInputManager playerInputManager = null;
   [SerializeField] private Rigidbody playerBody = null;
+  /// <summary>
+  /// This is used to reset the player's position and rotation when the
+  /// game starts over.
+  /// </summary>
+  [SerializeField] private Transform playerStartPoint = null;
   [SerializeField] private float speed = 5f;
   [SerializeField] private float rotationSpeed = 0.2f;
   [SerializeField] private float minRotationAngle = -30;
@@ -18,6 +23,19 @@ public class PlayerController : MonoBehaviour
   /// opposite direction of the swipe.
   /// </summary>
   [SerializeField] private bool useNaturalMotion = true;
+
+  private void Awake()
+  {
+    DontDestroyOnLoad(this);
+    GameManager.OnGameInit += ResetPlayer;
+  }
+
+  private void ResetPlayer()
+  {
+    playerBody.velocity = Vector3.zero;
+    transform.rotation = playerStartPoint.rotation;
+    transform.position = playerStartPoint.position;
+  }
 
   private void FixedUpdate()
   {
@@ -46,5 +64,10 @@ public class PlayerController : MonoBehaviour
     currentRotation.x = MathfExtensions.ClampAngle(currentRotation.x, minRotationAngle, maxRotationAngle);
     currentRotation.z = 0f;
     transform.rotation = Quaternion.Euler(currentRotation);
+  }
+
+  private void OnDestroy()
+  {
+    GameManager.OnGameInit -= ResetPlayer;
   }
 }

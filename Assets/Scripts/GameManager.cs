@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+  public static Action OnGameInit;
+  public static Action OnGameOver;
+
   public static GameManager Instance
   {
     get
@@ -30,10 +34,8 @@ public class GameManager : MonoBehaviour
 
   [SerializeField] private EnemySpawner enemySpawner;
   [SerializeField] [Range(1, 10)] private int numEnemiesToSpawn = 3;
-  [SerializeField] private Transform playerSpawnPoint;
 
   private GameState gameState = GameState.Init;
-
 
   private GameManager() { }
 
@@ -47,16 +49,12 @@ public class GameManager : MonoBehaviour
     switch (gameState)
     {
       case GameState.Init:
+        enemySpawner.ClearSpawnedEnemies();
         enemySpawner.SpawnEnemies(numEnemiesToSpawn);
-        // TODO
-        // Load player.
-        // Play fade animation so we don't overwhelm the user.
+        OnGameInit?.Invoke();
         gameState = GameState.Ready;
         break;
       case GameState.Ready:
-        if (Input.anyKey)
-          gameState = GameState.Started;
-
         if (Input.touchCount > 0)
         {
           Touch touch = Input.GetTouch(0);
@@ -74,6 +72,8 @@ public class GameManager : MonoBehaviour
         break;
       case GameState.Over:
         IsGameActive = false;
+        OnGameOver?.Invoke();
+        // TODO: Display Game Over UI.
         break;
       default:
         break;

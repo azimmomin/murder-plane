@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
 
   private void OnTriggerEnter(Collider other)
   {
+    // TODO: Apply force to enemy rigidbody
     if (!IsDead && other.gameObject.tag == "Player")
       IsDead = true;
   }
