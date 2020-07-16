@@ -34,7 +34,6 @@ public class PlayerInputManager : MonoBehaviour
     isActive = false;
   }
 
-  // Update is called once per frame
   private void Update()
   {
     if (!isActive) return;

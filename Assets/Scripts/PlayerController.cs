@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
   private void Awake()
   {
     DontDestroyOnLoad(this);
-    GameManager.OnGameInit += ResetPlayer;
+    GameManager.OnGameReset += ResetPlayer;
     GameManager.OnGameStarted += SetPlayerActive;
     GameManager.OnGameOver += SetPlayerInactive;
   }
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
   private void OnDestroy()
   {
-    GameManager.OnGameInit -= ResetPlayer;
+    GameManager.OnGameReset -= ResetPlayer;
     GameManager.OnGameStarted -= SetPlayerActive;
     GameManager.OnGameOver -= SetPlayerInactive;
   }
