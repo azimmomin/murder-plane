@@ -3,16 +3,23 @@
 public class EnemyController : MonoBehaviour
 {
   public bool IsDead { get; private set; }
+  
+  [SerializeField] private Rigidbody enemyRigidBody;
+  [SerializeField] private MeshRenderer enemyMeshRenderer;
+  [SerializeField] private Material deathMaterial;
 
   private void Start()
   {
     IsDead = false;
   }
 
-  private void OnTriggerEnter(Collider other)
+  private void OnCollisionEnter(Collision collision)
   {
-    // TODO: Apply force to enemy rigidbody
-    if (!IsDead && other.gameObject.tag == "Player")
+    if (!IsDead && collision.gameObject.CompareTag("Player"))
+    {
+      enemyRigidBody.AddForce(collision.impulse * 100f, ForceMode.Force);
+      enemyMeshRenderer.material = deathMaterial;
       IsDead = true;
+    }
   }
 }
