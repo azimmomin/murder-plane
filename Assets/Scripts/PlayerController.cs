@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     // Move the player at a constant speed. We take into account
     // any rotation that was applied in the Update loop.
     playerBody.velocity = transform.forward * speed;
-  }
+  } 
 
   private void Update()
   {
