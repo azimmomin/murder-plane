@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     ResetGame();
   }
 
-  private void ResetGame()
+  public void ResetGame()
   {
     enemySpawner.ClearSpawnedEnemies();
     enemySpawner.SpawnEnemies(numEnemiesToSpawn);
