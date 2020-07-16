@@ -11,16 +11,33 @@ public class PlayerInputManager : MonoBehaviour
   // swipes the touch.
   private Touch initialTouch = EmptyTouch;
   private Vector2 playerInputMoveAmount = Vector2.zero;
+  private bool isActive = false;
 
   public Vector2 GetChangeInPlayerInput()
   {
     return playerInputMoveAmount;
   }
 
+  private void Awake()
+  {
+    GameManager.OnGameStarted += SetInputActive;
+    GameManager.OnGameOver += SetInputInactive;
+  }
+
+  private void SetInputActive()
+  {
+    isActive = true;
+  }
+
+  private void SetInputInactive()
+  {
+    isActive = false;
+  }
+
   // Update is called once per frame
   private void Update()
   {
-    if (!GameManager.Instance.IsGameActive) return;
+    if (!isActive) return;
 
     // Rotate the plane based on user input
     HandlePlayerInput();
@@ -53,5 +70,11 @@ public class PlayerInputManager : MonoBehaviour
           break;
       }
     }
+  }
+
+  private void OnDestroy()
+  {
+    GameManager.OnGameStarted -= SetInputActive;
+    GameManager.OnGameOver -= SetInputInactive;
   }
 }

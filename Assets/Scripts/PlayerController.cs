@@ -24,31 +24,46 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   [SerializeField] private bool useNaturalMotion = true;
 
+  private bool isActive = false;
+
   private void Awake()
   {
     DontDestroyOnLoad(this);
     GameManager.OnGameInit += ResetPlayer;
+    GameManager.OnGameStarted += SetPlayerActive;
+    GameManager.OnGameOver += SetPlayerInactive;
   }
 
   private void ResetPlayer()
   {
+    isActive = false;
     playerBody.velocity = Vector3.zero;
     transform.rotation = playerStartPoint.rotation;
     transform.position = playerStartPoint.position;
   }
 
+  private void SetPlayerActive()
+  {
+    isActive = true;
+  }
+
+  private void SetPlayerInactive()
+  {
+    isActive = false;
+  }
+
   private void FixedUpdate()
   {
-    if (!GameManager.Instance.IsGameActive) return;
+    if (!isActive) return;
 
     // Move the player at a constant speed. We take into account
     // any rotation that was applied in the Update loop.
     playerBody.velocity = transform.forward * speed;
-  } 
+  }
 
   private void Update()
   {
-    if (!GameManager.Instance.IsGameActive) return;
+    if (!isActive) return;
 
     // Rotate the player based on user input.
     Vector2 delta = playerInputManager.GetChangeInPlayerInput();
@@ -59,6 +74,8 @@ public class PlayerController : MonoBehaviour
 
   private void LateUpdate()
   {
+    if (!isActive) return;
+
     // Clamp the player's rotation to the specified range.
     Vector3 currentRotation = transform.eulerAngles;
     currentRotation.x = MathfExtensions.ClampAngle(currentRotation.x, minRotationAngle, maxRotationAngle);
@@ -69,5 +86,7 @@ public class PlayerController : MonoBehaviour
   private void OnDestroy()
   {
     GameManager.OnGameInit -= ResetPlayer;
+    GameManager.OnGameStarted -= SetPlayerActive;
+    GameManager.OnGameOver -= SetPlayerInactive;
   }
 }
