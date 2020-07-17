@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class is responsible for toggling gameobjects
+/// active or inactive when the GameOver event is fired.
+/// </summary>
 public class ToggleActiveForGameOver : MonoBehaviour
 {
   [SerializeField] private bool isActive = false;
+  [SerializeField] private GameObject[] objectsToToggle;
 
   private void Awake()
   {
@@ -11,7 +16,11 @@ public class ToggleActiveForGameOver : MonoBehaviour
 
   private void Toggle()
   {
-    gameObject.SetActive(isActive);
+    foreach (GameObject obj in objectsToToggle)
+    {
+      obj.SetActive(isActive);
+
+    }
   }
 
   private void OnDestroy()
