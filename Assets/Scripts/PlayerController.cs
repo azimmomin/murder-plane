@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// This class moves the player based on user input. 
@@ -83,8 +84,31 @@ public class PlayerController : MonoBehaviour
     transform.rotation = Quaternion.Euler(currentRotation);
   }
 
+  private void OnCollisionEnter(Collision collision)
+  {
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+      EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
+      if (enemyController != null && enemyController.IsAlive)
+      {
+        // Stop movement for a bit.
+        playerBody.detectCollisions = false;
+        playerBody.isKinematic = true;
+        StartCoroutine(AnimatePlayerCollision());
+      }
+    }
+  }
+
+  private IEnumerator AnimatePlayerCollision()
+  {
+    yield return new WaitForSeconds(.5f);
+    playerBody.detectCollisions = true;
+    playerBody.isKinematic = false;
+  }
+
   private void OnDestroy()
   {
+    StopAllCoroutines();
     GameManager.OnGameReset -= ResetPlayer;
     GameManager.OnGameStarted -= SetPlayerActive;
     GameManager.OnGameOver -= SetPlayerInactive;

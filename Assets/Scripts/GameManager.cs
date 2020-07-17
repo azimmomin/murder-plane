@@ -61,9 +61,6 @@ public class GameManager : MonoBehaviour
           OnGameOver?.Invoke();
         }
         break;
-      case GameState.Over:
-        // TODO: Display Game Over UI.
-        break;
       default:
         break;
     }
