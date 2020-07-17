@@ -14,6 +14,11 @@ public class EnemySpawner : MonoBehaviour
 
   private IList<EnemyController> spawnedEnemies = new List<EnemyController>();
 
+  /// <summary>
+  /// Attempts to spawn the requested amount in random
+  /// spawn points specified in the serialized field above.
+  /// </summary>
+  /// <param name="amountToSpawn"></param>
   public void SpawnEnemies(int amountToSpawn)
   {
     if (enemySpawnPoints == null || enemySpawnPoints.Length == 0)
@@ -56,5 +61,17 @@ public class EnemySpawner : MonoBehaviour
       Destroy(spawnedEnemies[i].gameObject);
 
     spawnedEnemies.Clear();
+  }
+
+  /// <returns>EnemyController if there is an alive enemy left, null otherwise.</returns>
+  public EnemyController GetFirstAliveEnemy()
+  {
+    foreach (EnemyController enemy in spawnedEnemies)
+    {
+      if (enemy.IsAlive)
+        return enemy;
+    }
+
+    return null;
   }
 }
