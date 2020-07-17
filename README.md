@@ -23,3 +23,4 @@ INSTALLATION INSTRUCTIONS
 - Load the project.
 - Switch your build platform to iOS: File -> Buiild Settings -> iOS -> Switch Platform
 - File -> 'Build And Run'
+- I've also included a demo video that you can watch (MurderPlaneDemo.MP4)
