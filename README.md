@@ -20,7 +20,4 @@ FUTURE ADDITIONS
 
 INSTALLATION INSTRUCTIONS
 -------------------------
-Inside of the MurderPlane.zip file is an unsigned IPA file, the XCode Project I used to build to my phone, and a demo of me playing the game on my phone.
-- If you can't install that IPA, I've included the Xcode project that you can use to create a new signed build
-- If all else fails, you can load the unity project and click File -> 'Build And Run'
-- I've also included a video that demo's my work.
+- Load the unity project and click File -> 'Build And Run'
