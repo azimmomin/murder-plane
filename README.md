@@ -20,4 +20,6 @@ FUTURE ADDITIONS
 
 INSTALLATION INSTRUCTIONS
 -------------------------
-- Load the unity project and click File -> 'Build And Run'
+- Load the project.
+- Switch your build platform to iOS: File -> Buiild Settings -> iOS -> Switch Platform
+- File -> 'Build And Run'
