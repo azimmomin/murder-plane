@@ -51,7 +51,7 @@ public class AdTimer : MonoBehaviour
 
   private void OnApplicationPause(bool pauseStatus)
   {
-    isTimerActive = pauseStatus;
+    isTimerActive = !pauseStatus;
   }
 
   private void OnDisable()

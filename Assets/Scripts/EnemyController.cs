@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
 
   private IEnumerator KillEnemy()
   {
-    // Wait for a half second so the transition is not so jarring.
+    // Wait for a second so the transition is not so jarring.
     yield return new WaitForSeconds(1f);
     enemyRigidBody.isKinematic = true;
     enemyStatus = EnemyStatus.Dead;

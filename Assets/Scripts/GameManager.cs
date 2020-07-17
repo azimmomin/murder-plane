@@ -26,34 +26,20 @@ public class GameManager : MonoBehaviour
   {
     enemySpawner.ClearSpawnedEnemies();
     enemySpawner.SpawnEnemies(numEnemiesToSpawn);
-    gameState = GameState.Ready;
     OnGameReset?.Invoke();
+    gameState = GameState.Ready;
+  }
+
+  public void StartGame()
+  {
+    gameState = GameState.Started;
+    OnGameStarted?.Invoke();
   }
 
   private void Update()
   {
     switch (gameState)
     {
-      case GameState.Ready:
-        // TODO Remove test code.
-#if UNITY_EDITOR
-        if (Input.anyKey)
-        {
-          gameState = GameState.Started;
-          OnGameStarted?.Invoke();
-        }
-#else
-        if (Input.touchCount > 0)
-        {
-          Touch touch = Input.GetTouch(0);
-          if (touch.fingerId == 0 && touch.phase == TouchPhase.Ended)
-          {
-            gameState = GameState.Started;
-            OnGameStarted?.Invoke();
-          }
-        }
-#endif
-        break;
       case GameState.Started:
         if (enemySpawner.AreAllEnemiesDead())
         {

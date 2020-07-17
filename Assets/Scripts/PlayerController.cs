@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
   private void SetPlayerInactive()
   {
+    playerBody.velocity = Vector3.zero;
     isActive = false;
   }
 
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
     if (collision.gameObject.CompareTag("Enemy"))
     {
       EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
-      if (enemyController != null && enemyController.IsAlive)
+      if (enemyController != null && !enemyController.IsDead)
       {
         // Stop movement for a bit.
         playerBody.detectCollisions = false;
